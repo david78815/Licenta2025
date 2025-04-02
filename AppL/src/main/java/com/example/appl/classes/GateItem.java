@@ -1,4 +1,4 @@
-package com.example.appl;
+package com.example.appl.classes;
 
 public class GateItem {
     private final String gateType;

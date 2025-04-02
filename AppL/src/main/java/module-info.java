@@ -12,4 +12,8 @@ module com.example.appl {
 
     opens com.example.appl to javafx.fxml;
     exports com.example.appl;
+    exports com.example.appl.controllers;
+    opens com.example.appl.controllers to javafx.fxml;
+    exports com.example.appl.classes;
+    opens com.example.appl.classes to javafx.fxml;
 }

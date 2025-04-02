@@ -1,4 +1,4 @@
-package com.example.appl;
+package com.example.appl.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
