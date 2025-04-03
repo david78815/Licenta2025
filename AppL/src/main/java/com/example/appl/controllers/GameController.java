@@ -1,5 +1,6 @@
 package com.example.appl.controllers;
 
+import com.example.appl.classes.GateCell;
 import com.example.appl.classes.GateItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +19,7 @@ public class GameController {
     private ObservableList<GateItem> gateItems;
 
     @FXML
-    public void initiliaze(){
+    public void initialize(){
         gateItems = FXCollections.observableArrayList(
                 new GateItem("AND","/icons/AND.png"),
                 new GateItem("OR","/icons/OR.png"),
@@ -29,7 +30,7 @@ public class GameController {
         );
 
         gateListView.setItems(gateItems);
-
+        gateListView.setCellFactory(listView -> new GateCell());
     }
 
 }
