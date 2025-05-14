@@ -1,25 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.appl.controllers.GameController"
-      >
-   <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </right>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"
-      fx:id="circuitArea"
-      />
-   </center>
-   <left>
-      <ListView fx:id="gateListView"
-
-                prefHeight="400.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+           prefHeight="600.0" prefWidth="800.0" 
+           xmlns="http://javafx.com/javafx/23.0.1" 
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.appl.controllers.GameController">
+    
+    <top>
+        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+            <Label fx:id="levelLabel" styleClass="level-label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Back to Levels" onAction="#onBackToLevelsClick" styleClass="menu-button"/>
+        </HBox>
+    </top>
+    
+    <left>
+        <VBox spacing="10" alignment="TOP_CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Available Gates" style="-fx-font-weight: bold"/>
+            <ListView fx:id="gateListView" prefHeight="400.0" prefWidth="120.0"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <AnchorPane fx:id="circuitArea" style="-fx-background-color: #f4f4f4;"/>
+    </center>
+    
+    <right>
+        <VBox spacing="20" alignment="TOP_CENTER" prefWidth="200.0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            
+            <!-- Source Controls -->
+            <VBox spacing="10" alignment="TOP_CENTER">
+                <Label text="Input Controls" style="-fx-font-weight: bold"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <ToggleButton fx:id="source1Toggle" text="Source 1"/>
+                    <ToggleButton fx:id="source2Toggle" text="Source 2"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Truth Table -->
+            <VBox spacing="10" alignment="TOP_CENTER">
+                <Label text="Truth Table" style="-fx-font-weight: bold"/>
+                <TableView fx:id="truthTable" prefHeight="200.0">
+                    <columns>
+                        <TableColumn fx:id="input1Col" text="Input 1"/>
+                        <TableColumn fx:id="input2Col" text="Input 2"/>
+                        <TableColumn fx:id="expectedOutputCol" text="Expected"/>
+                        <TableColumn fx:id="actualOutputCol" text="Actual"/>
+                    </columns>
+                </TableView>
+            </VBox>
+            
+            <!-- Validation -->
+            <Button fx:id="validateButton" text="Validate Circuit" 
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            
+            <!-- Clear Circuit -->
+            <Button fx:id="clearButton" text="Clear Circuit" 
+                    style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </VBox>
+    </right>
+    
 </BorderPane>
