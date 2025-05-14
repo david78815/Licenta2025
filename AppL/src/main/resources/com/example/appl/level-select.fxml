@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.appl.controllers.LevelSelectController"
+      style="-fx-background-color: white;">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Text styleClass="title-text" text="Select Level"/>
+    
+    <ScrollPane fitToWidth="true" maxHeight="400" styleClass="level-scroll">
+        <VBox spacing="10" alignment="CENTER">
+            <Button text="Level 1: Basic Gates" onAction="#onLevel1Click" styleClass="level-button"/>
+            <Button text="Level 2: AND Gate" onAction="#onLevel2Click" styleClass="level-button"/>
+            <Button text="Level 3: OR Gate" onAction="#onLevel3Click" styleClass="level-button"/>
+            <Button text="Level 4: NOT Gate" onAction="#onLevel4Click" styleClass="level-button"/>
+            <Button text="Level 5: NAND Gate" onAction="#onLevel5Click" styleClass="level-button"/>
+            <Button text="Level 6: NOR Gate" onAction="#onLevel6Click" styleClass="level-button"/>
+            <Button text="Level 7: XOR Gate" onAction="#onLevel7Click" styleClass="level-button"/>
+            <Button text="Level 8: Complex Circuit" onAction="#onLevel8Click" styleClass="level-button"/>
+        </VBox>
+    </ScrollPane>
+    
+    <Button text="Back to Menu" onAction="#onBackClick" styleClass="menu-button"/>
+</VBox> 

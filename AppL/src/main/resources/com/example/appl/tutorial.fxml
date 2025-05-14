@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.appl.controllers.TutorialController"
+      style="-fx-background-color: white;">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Text styleClass="title-text" text="Tutorial"/>
+    
+    <ScrollPane fitToWidth="true" styleClass="tutorial-scroll">
+        <VBox spacing="20" alignment="CENTER_LEFT" style="-fx-padding: 20;">
+            <Text styleClass="tutorial-heading" text="Basic Controls"/>
+            <Text styleClass="tutorial-text" text="• Drag gates from the left panel to the circuit area"/>
+            <Text styleClass="tutorial-text" text="• Click on connection points to create wires between components"/>
+            <Text styleClass="tutorial-text" text="• Right-click on gates or wires to delete them"/>
+            <Text styleClass="tutorial-text" text="• Use the toggle buttons to control input states"/>
+            
+            <Text styleClass="tutorial-heading" text="Circuit Building"/>
+            <Text styleClass="tutorial-text" text="• Each gate has input points on the left and output points on the right"/>
+            <Text styleClass="tutorial-text" text="• Connect source nodes to gate inputs"/>
+            <Text styleClass="tutorial-text" text="• Connect gate outputs to other gates or the destination"/>
+            <Text styleClass="tutorial-text" text="• NOT gates can only have one input"/>
+            <Text styleClass="tutorial-text" text="• Other gates can have two inputs"/>
+            
+            <Text styleClass="tutorial-heading" text="Truth Tables"/>
+            <Text styleClass="tutorial-text" text="• The truth table shows all possible input combinations"/>
+            <Text styleClass="tutorial-text" text="• 'Expected' column shows the target output"/>
+            <Text styleClass="tutorial-text" text="• 'Actual' column shows your circuit's output"/>
+            <Text styleClass="tutorial-text" text="• Use the 'Validate Circuit' button to check your solution"/>
+            
+            <Text styleClass="tutorial-heading" text="Tips"/>
+            <Text styleClass="tutorial-text" text="• Start with simple gates and build up to complex circuits"/>
+            <Text styleClass="tutorial-text" text="• Test your circuit with different input combinations"/>
+            <Text styleClass="tutorial-text" text="• Use the 'Clear Circuit' button to start over"/>
+            <Text styleClass="tutorial-text" text="• Complete each level to unlock more challenging circuits"/>
+        </VBox>
+    </ScrollPane>
+    
+    <Button text="Back to Menu" onAction="#onBackClick" styleClass="menu-button"/>
+</VBox> 

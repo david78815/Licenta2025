@@ -1,0 +1,190 @@
+.circuit-node {
+    -fx-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.circuit-node.active {
+    -fx-fill: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #4CAF50, 10, 0, 0, 0);
+}
+
+.circuit-node.selected {
+    -fx-stroke: #2196F3;
+    -fx-stroke-width: 3;
+    -fx-effect: dropshadow(gaussian, #2196F3, 10, 0, 0, 0);
+}
+
+.connection-point {
+    -fx-cursor: hand;
+    -fx-fill: #666666;
+    -fx-stroke: white;
+    -fx-stroke-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0, 0, 1);
+}
+
+.connection-point:hover {
+    -fx-fill: #2196F3;
+    -fx-stroke: white;
+    -fx-stroke-width: 2;
+    -fx-effect: dropshadow(gaussian, #2196F3, 5, 0, 0, 0);
+}
+
+.circuit-connection {
+    -fx-stroke: #666666;
+    -fx-stroke-width: 2;
+    -fx-cursor: hand;
+}
+
+.circuit-connection:hover {
+    -fx-stroke: #2196F3;
+    -fx-stroke-width: 3;
+    -fx-effect: dropshadow(gaussian, #2196F3, 5, 0, 0, 0);
+}
+
+.gate-list-cell {
+    -fx-padding: 10;
+    -fx-alignment: center;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.gate-list-cell:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.gate-list-cell .gate-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.truth-table {
+    -fx-font-size: 12px;
+}
+
+.truth-table .column-header {
+    -fx-font-weight: bold;
+    -fx-background-color: #f4f4f4;
+}
+
+.truth-table .table-row-cell:odd {
+    -fx-background-color: #f8f8f8;
+}
+
+.truth-table .table-row-cell:even {
+    -fx-background-color: white;
+}
+
+#circuitArea {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+}
+
+.toggle-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #4CAF50, 5, 0, 0, 0);
+}
+
+.button {
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.title-text {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-fill: #2196F3;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.menu-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: #1976D2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+}
+
+.level-button {
+    -fx-background-color: white;
+    -fx-text-fill: #2196F3;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-min-width: 300;
+    -fx-padding: 15;
+}
+
+.level-button:hover {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+}
+
+.level-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.level-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.level-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.level-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2196F3;
+}
+
+.tutorial-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.tutorial-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.tutorial-heading {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-fill: #1976D2;
+    -fx-padding: 10 0 5 0;
+}
+
+.tutorial-text {
+    -fx-font-size: 14px;
+    -fx-fill: #424242;
+    -fx-padding: 0 0 0 20;
+} 
