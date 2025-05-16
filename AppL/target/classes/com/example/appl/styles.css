@@ -17,6 +17,24 @@
     -fx-effect: dropshadow(gaussian, #2196F3, 10, 0, 0, 0);
 }
 
+/* Gate shape styles */
+.gate-shape {
+    -fx-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
+}
+
+.gate-shape.active {
+    -fx-fill: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #4CAF50, 10, 0, 0, 0);
+}
+
+.gate-shape.selected {
+    -fx-stroke: #2196F3;
+    -fx-stroke-width: 3;
+    -fx-effect: dropshadow(gaussian, #2196F3, 10, 0, 0, 0);
+}
+
 .connection-point {
     -fx-cursor: hand;
     -fx-fill: #666666;

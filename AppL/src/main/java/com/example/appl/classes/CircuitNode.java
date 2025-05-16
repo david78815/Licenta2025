@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.Node;
 
 /**
  * Represents a node in the circuit (source, gate, or destination).
@@ -44,7 +45,7 @@ public class CircuitNode extends StackPane {
         this.outputs = new ArrayList<>();
         this.connectionPoints = new ArrayList<>();
 
-        // Create main circle
+        // Create main circle (only visible for INPUT/OUTPUT nodes)
         mainCircle = new Circle(NODE_RADIUS);
         mainCircle.getStyleClass().add("circuit-node");
 
@@ -53,7 +54,12 @@ public class CircuitNode extends StackPane {
         label.setFont(Font.font(14));
         label.setFill(Color.BLACK);
 
-        getChildren().addAll(mainCircle, label);
+        // Only add mainCircle for INPUT/OUTPUT nodes
+        if (type != NodeType.GATE) {
+            getChildren().addAll(mainCircle, label);
+        } else {
+            getChildren().add(label);
+        }
 
         // Create connection points
         setupConnectionPoints();
@@ -232,6 +238,9 @@ public class CircuitNode extends StackPane {
     public void setState(boolean active) {
         this.active = active;
         updateVisualState();
+        
+        // Update connection points
+        updateConnectionPointStates();
     }
 
     public void setSelected(boolean selected) {
@@ -240,9 +249,17 @@ public class CircuitNode extends StackPane {
     }
 
     private void updateVisualState() {
-        mainCircle.getStyleClass().removeAll("active", "selected");
-        if (active) mainCircle.getStyleClass().add("active");
-        if (selected) mainCircle.getStyleClass().add("selected");
+        if (type != NodeType.GATE) {
+            mainCircle.getStyleClass().removeAll("active", "selected");
+            if (active) mainCircle.getStyleClass().add("active");
+            if (selected) mainCircle.getStyleClass().add("selected");
+        } else if (gateItem != null) {
+            // Update the gate shape if it exists
+            Node gateShape = ((Group)getChildren().get(1)).getChildren().get(0);
+            gateShape.getStyleClass().removeAll("active", "selected");
+            if (active) gateShape.getStyleClass().add("active");
+            if (selected) gateShape.getStyleClass().add("selected");
+        }
     }
 
     public void addInput(CircuitConnection connection) {
@@ -281,18 +298,20 @@ public class CircuitNode extends StackPane {
             shape.setScaleX(1.0);
             shape.setScaleY(1.0);
             
-            // Create a container for the gate shape and make it mouse transparent
+            // Create a container for the gate shape
             Group gateGroup = new Group(shape);
-            gateGroup.setMouseTransparent(true);
             
-            // Add the main circle first (for selection highlight), then the gate shape
-            getChildren().addAll(mainCircle, gateGroup);
+            // Only add the gate shape and label
+            getChildren().addAll(label, gateGroup);
             
             // Add connection points on top
             setupConnectionPoints();
             
             // Make sure the connection points are visible
             connectionPoints.forEach(point -> point.toFront());
+            
+            // Update visual state to apply any existing state
+            updateVisualState();
         }
     }
 
@@ -300,7 +319,35 @@ public class CircuitNode extends StackPane {
         return gateItem;
     }
 
-    private void deleteGate() {
+    private void updateConnectionPointStates() {
+        if (type == NodeType.GATE) {
+            // Update input connection points
+            for (int i = 0; i < inputs.size() && i < 2; i++) {
+                Circle point = connectionPoints.get(i);
+                boolean inputActive = inputs.get(i).getSource().isActive();
+                point.setFill(inputActive ? Color.valueOf("#4CAF50") : Color.GRAY);
+            }
+            
+            // Update output connection point
+            int outputIndex = gateItem != null && gateItem.getGateType().equals("NOT") ? 1 : 2;
+            if (outputIndex < connectionPoints.size()) {
+                connectionPoints.get(outputIndex).setFill(active ? Color.valueOf("#4CAF50") : Color.GRAY);
+            }
+        } else if (type == NodeType.INPUT) {
+            // Update output connection point
+            if (!connectionPoints.isEmpty()) {
+                connectionPoints.get(0).setFill(active ? Color.valueOf("#4CAF50") : Color.GRAY);
+            }
+        } else if (type == NodeType.OUTPUT) {
+            // Update input connection point
+            if (!connectionPoints.isEmpty()) {
+                boolean inputActive = !inputs.isEmpty() && inputs.get(0).getSource().isActive();
+                connectionPoints.get(0).setFill(inputActive ? Color.valueOf("#4CAF50") : Color.GRAY);
+            }
+        }
+    }
+
+    public void deleteGate() {
         if (type != NodeType.GATE) return;
         
         // First, delete all connections
@@ -318,7 +365,11 @@ public class CircuitNode extends StackPane {
         
         // Then remove the gate from its parent
         if (getParent() != null) {
-            ((Pane) getParent()).getChildren().remove(this);
+            Pane parent = (Pane) getParent();
+            parent.getChildren().remove(this);
+            
+            // Find and call updateCircuit on the GameController
+            parent.fireEvent(new CircuitEvent(CircuitEvent.CIRCUIT_CHANGED, this));
         }
     }
 } 

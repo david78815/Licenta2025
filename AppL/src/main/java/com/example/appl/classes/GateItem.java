@@ -46,9 +46,10 @@ public class GateItem {
             default -> new Rectangle(GATE_WIDTH, GATE_HEIGHT);
         };
         
-        shape.setFill(Color.WHITE);
-        shape.setStroke(Color.BLACK);
-        shape.setStrokeWidth(2);
+        // Only add the style class to gates that don't have explicit styling
+        if (gateType.equals("AND") || gateType.equals("NAND")) {
+            shape.getStyleClass().add("gate-shape");
+        }
         return shape;
     }
 
@@ -75,33 +76,28 @@ public class GateItem {
         // Start at top left
         path.getElements().add(new MoveTo(-GATE_WIDTH/2, -GATE_HEIGHT/2));
         
-        // Curve to bottom
-        ArcTo arcTo1 = new ArcTo();
-        arcTo1.setX(-GATE_WIDTH/2);
-        arcTo1.setY(GATE_HEIGHT/2);
-        arcTo1.setRadiusX(GATE_WIDTH * 0.7);
-        arcTo1.setRadiusY(GATE_HEIGHT);
-        arcTo1.setLargeArcFlag(false);
-        arcTo1.setSweepFlag(true);
-        path.getElements().add(arcTo1);
+        // Create the curved front using a quadratic curve
+        ArcTo frontArc = new ArcTo();
+        frontArc.setX(-GATE_WIDTH/2);
+        frontArc.setY(GATE_HEIGHT/2);
+        frontArc.setRadiusX(GATE_WIDTH * 0.8);
+        frontArc.setRadiusY(GATE_HEIGHT/2);
+        frontArc.setLargeArcFlag(false);
+        frontArc.setSweepFlag(true);
+        path.getElements().add(frontArc);
         
-        // Right curve
-        ArcTo arcTo2 = new ArcTo();
-        arcTo2.setX(-GATE_WIDTH/2);
-        arcTo2.setY(-GATE_HEIGHT/2);
-        arcTo2.setRadiusX(GATE_WIDTH * 0.3);
-        arcTo2.setRadiusY(GATE_HEIGHT/2);
-        arcTo2.setLargeArcFlag(false);
-        arcTo2.setSweepFlag(false);
-        path.getElements().add(arcTo2);
+        // Close the path back to start
+        path.getElements().add(new LineTo(-GATE_WIDTH/2, -GATE_HEIGHT/2));
+        
+        path.setFill(Color.WHITE);
+        path.setStroke(Color.BLACK);
+        path.setStrokeWidth(2);
         
         return path;
     }
 
     private Shape createNotGate() {
-        Group group = new Group();
-        
-        // Triangle
+        // Create the triangle shape
         Path triangle = new Path();
         triangle.getElements().addAll(
             new MoveTo(-GATE_WIDTH/2, -GATE_HEIGHT/2),
@@ -109,47 +105,71 @@ public class GateItem {
             new LineTo(-GATE_WIDTH/2, GATE_HEIGHT/2),
             new LineTo(-GATE_WIDTH/2, -GATE_HEIGHT/2)
         );
+        triangle.setFill(Color.WHITE);
+        triangle.setStroke(Color.BLACK);
+        triangle.setStrokeWidth(2);
         
-        // Output circle
-        Circle circle = new Circle(GATE_WIDTH/2, 0, 4);
+        // Create the output circle
+        Circle circle = new Circle(GATE_WIDTH/2, 0, 5);
+        circle.setFill(Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(2);
         
-        Shape shape = Shape.union(triangle, circle);
-        return shape;
+        // Combine shapes
+        Shape combined = Shape.union(triangle, circle);
+        combined.setFill(Color.WHITE);
+        combined.setStroke(Color.BLACK);
+        combined.setStrokeWidth(2);
+        
+        return combined;
     }
 
     private Shape createNandGate() {
         Shape andGate = createAndGate();
-        Circle circle = new Circle(GATE_WIDTH/2, 0, 4);
+        
+        // Create a larger, more prominent output circle
+        Circle circle = new Circle(GATE_WIDTH/2, 0, 6);
+        circle.setFill(Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(2);
+        
         return Shape.union(andGate, circle);
     }
 
     private Shape createNorGate() {
         Shape orGate = createOrGate();
-        Circle circle = new Circle(GATE_WIDTH/2, 0, 4);
+        
+        // Create a larger, more prominent output circle
+        Circle circle = new Circle(GATE_WIDTH/2, 0, 6);
+        circle.setFill(Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(2);
+        
         return Shape.union(orGate, circle);
     }
 
     private Shape createXorGate() {
-        Group group = new Group();
-        
-        // OR gate base
+        // Create the base OR gate
         Shape orGate = createOrGate();
         
-        // Extra input arc
-        Path extraArc = new Path();
-        extraArc.getElements().add(new MoveTo(-GATE_WIDTH/2 - 8, -GATE_HEIGHT/2));
+        // Create the extra input curve
+        Path extraCurve = new Path();
+        extraCurve.getElements().add(new MoveTo(-GATE_WIDTH/2 - 5, -GATE_HEIGHT/2));
         
         ArcTo arcTo = new ArcTo();
-        arcTo.setX(-GATE_WIDTH/2 - 8);
+        arcTo.setX(-GATE_WIDTH/2 - 5);
         arcTo.setY(GATE_HEIGHT/2);
-        arcTo.setRadiusX(GATE_WIDTH * 0.7);
+        arcTo.setRadiusX(GATE_WIDTH * 0.5);
         arcTo.setRadiusY(GATE_HEIGHT);
         arcTo.setLargeArcFlag(false);
         arcTo.setSweepFlag(true);
-        extraArc.getElements().add(arcTo);
+        extraCurve.getElements().add(arcTo);
         
-        Shape shape = Shape.union(orGate, extraArc);
-        return shape;
+        // Combine shapes
+        Shape combined = Shape.union(orGate, extraCurve);
+        combined.getStyleClass().add("gate-shape");
+        
+        return combined;
     }
 
     public String getGateType() {

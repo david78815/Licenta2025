@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.Node;
@@ -133,10 +134,23 @@ public class GameController {
         setupNodeClickHandlers(source1);
         setupNodeClickHandlers(source2);
         setupNodeClickHandlers(destination);
+        
+        // Add circuit change event handler
+        circuitArea.addEventHandler(CircuitEvent.CIRCUIT_CHANGED, event -> updateCircuit());
     }
 
     private void setupNodeClickHandlers(CircuitNode node) {
-        node.setOnMouseClicked(event -> handleNodeClick(node, event));
+        node.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY && node.getType() == CircuitNode.NodeType.GATE) {
+                // Remove the gate from our list
+                gates.remove(node);
+                // The gate will handle its own deletion
+                node.deleteGate();
+                updateCircuit();
+            } else {
+                handleNodeClick(node, event);
+            }
+        });
     }
 
     private void handleNodeClick(CircuitNode node, MouseEvent event) {
@@ -172,7 +186,11 @@ public class GameController {
         if (node.getType() == CircuitNode.NodeType.INPUT) {
             return 0; // Source has only one output point
         } else if (node.getType() == CircuitNode.NodeType.GATE) {
-            return 2; // Gate's output point is at index 2
+            GateItem gate = node.getGateItem();
+            if (gate != null && gate.getGateType().equals("NOT")) {
+                return 1; // NOT gate's output point is at index 1
+            }
+            return 2; // Other gates' output point is at index 2
         }
         return -1;
     }
@@ -271,8 +289,17 @@ public class GameController {
             for (CircuitNode gate : gates) {
                 if (gate.getGateItem() != null) {
                     List<CircuitConnection> inputs = gate.getInputs();
-                    boolean input1 = inputs.size() > 0 ? inputs.get(0).getSource().isActive() : false;
-                    boolean input2 = inputs.size() > 1 ? inputs.get(1).getSource().isActive() : false;
+                    if (inputs.isEmpty()) {
+                        gate.setState(false);
+                        continue;
+                    }
+                    
+                    boolean input1 = inputs.get(0).getSource().isActive();
+                    boolean input2 = false;
+                    
+                    if (!gate.getGateItem().getGateType().equals("NOT") && inputs.size() > 1) {
+                        input2 = inputs.get(1).getSource().isActive();
+                    }
                     
                     boolean newState = gate.getGateItem().evaluate(input1, input2);
                     if (newState != gate.isActive()) {
@@ -284,7 +311,9 @@ public class GameController {
         } while (changed);
 
         // Update destination node
-        if (!destination.getInputs().isEmpty()) {
+        if (destination.getInputs().isEmpty()) {
+            destination.setState(false);
+        } else {
             destination.setState(destination.getInputs().get(0).getSource().isActive());
         }
 
