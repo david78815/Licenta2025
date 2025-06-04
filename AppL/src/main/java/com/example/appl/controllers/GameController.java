@@ -251,9 +251,6 @@ public class GameController {
                 gates.add(gate);
                 circuitArea.getChildren().add(gate);
                 success = true;
-
-                // Update truth table for the new gate type
-                updateTruthTableForGate(gateItem.get());
             }
         }
         event.setDropCompleted(success);

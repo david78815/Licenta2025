@@ -99,6 +99,19 @@ public class CircuitConnection extends Path {
         // Update circuit state
         if (target.getType() == CircuitNode.NodeType.GATE) {
             target.setState(false); // Reset gate state when connection is removed
+        } else if (target.getType() == CircuitNode.NodeType.OUTPUT) {
+            target.setState(false); // Reset output state when connection is removed
+            target.getStyleClass().remove("active"); // Remove active style class from output
+        }
+        
+        // Update source state if it's an input node
+        if (source.getType() == CircuitNode.NodeType.INPUT) {
+            source.setState(false);
+        }
+        
+        // Fire circuit changed event
+        if (getParent() != null) {
+            getParent().fireEvent(new CircuitEvent(CircuitEvent.CIRCUIT_CHANGED, target));
         }
     }
 

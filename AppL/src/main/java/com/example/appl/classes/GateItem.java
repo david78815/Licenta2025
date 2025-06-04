@@ -46,10 +46,8 @@ public class GateItem {
             default -> new Rectangle(GATE_WIDTH, GATE_HEIGHT);
         };
         
-        // Only add the style class to gates that don't have explicit styling
-        if (gateType.equals("AND") || gateType.equals("NAND")) {
-            shape.getStyleClass().add("gate-shape");
-        }
+        // Add the style class to all gate shapes
+        shape.getStyleClass().add("gate-shape");
         return shape;
     }
 
